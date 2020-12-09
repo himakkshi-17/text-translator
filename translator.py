@@ -4,7 +4,7 @@ from tkinter import messagebox
 from textblob import TextBlob
 
 root = Tk()
-root.geometry('600x450')
+root.geometry('800x600')
 root.title('Language Translator')
 root.resizable(False, False)
 root.configure(bg='gold2')
@@ -34,11 +34,49 @@ dict = {'afrikaans': 'af', 'albanian': 'sq', 'amharic': 'am', 'arabic': 'ar', 'a
 
 ## COMBO-BOX  - SCROLL-DOWN-FOR-LANGUAGES
 
-languages = StringVar()
-fontbox = Combobox(root, width=30, textvariable=languages, state='readonly')
-fontbox['values'] = [e for e in dict.keys()]
-fontbox.current(37)
-fontbox.place(x=380, y=20)
+def checkkey(event):
+    value = event.widget.get()
+
+    # get data from dict
+    if value == '':
+        data = dict
+    else:
+        data = []
+        for item in dict:
+            if value.lower() in item.lower():
+                data.append(item)
+
+            # update data in listbox
+    update(data)
+
+
+def update(data):
+    # clear previous data
+    lb.delete(0, 'end')
+
+    # put new data
+    for item in data:
+        lb.insert('end', item)
+
+# creating text box
+e = Entry(root)
+e.pack()
+e.place(x=580, y=20)
+e.bind('<KeyRelease>', checkkey)
+
+# creating list box
+lb = Listbox(root)
+lb.pack()
+update(dict)
+
+lb.place(x=580, y=40)
+
+#
+# languages = StringVar()
+# fontbox = Combobox(root, width=30, textvariable=lb, state='readonly')
+# fontbox['values'] = [e for e in dict.keys()]
+# lb.current(37)
+# lb.place(x=380, y=20)
 
 
 def display(event=None):
@@ -59,7 +97,8 @@ def exit():
         root.destroy()
 
 
-###binding functions####
+## BINDING FUNCTIONS
+
 def enterentry1(e):
     entry1['bg'] = "brown1"
 
@@ -95,33 +134,33 @@ def leavebtn2(e):
 ## ENTRY-BOX
 
 var1 = StringVar()
-entry1 = Entry(root, width=30, textvariable=var1, font=('times', 15, 'italic bold'))
-entry1.place(x=180, y=80)
+entry1 = Entry(root, width=40, textvariable=var1, font=('times', 15, 'italic bold'))
+entry1.place(x=180, y=240)
 
 var2 = StringVar()
-entry2 = Entry(root, width=30, textvariable=var2, font=('times', 15, 'italic bold'))
-entry2.place(x=180, y=180)
+entry2 = Entry(root, width=40, textvariable=var2, font=('times', 15, 'italic bold'))
+entry2.place(x=180, y=300)
 
 ## LABELS
 
 label1 = Label(root, text='Enter to convert:', font=('times', 15, 'italic bold'), bg='gold2')
-label1.place(x=5, y=80)
+label1.place(x=5, y=240)
 
 label2 = Label(root, text='Converted text: ', font=('times', 15, 'italic bold'), bg='gold2')
-label2.place(x=5, y=180)
+label2.place(x=5, y=300)
 
 ## BUTTONS
 
 btn1 = Button(root, text='Click', bd=5, bg='cyan', activebackground='red', width=10, font=('times', 15,
-                                                                                            'italic bold'),
+                                                                                           'italic bold'),
               command=display)
-btn1.place(x=100, y=300)
+btn1.place(x=200, y=400)
 
 btn2 = Button(root, text='Exit', bd=5, bg='cyan', activebackground='red', width=10, font=('times', 15,
-                                                                                           'italic bold'), command=exit)
-btn2.place(x=300, y=300)
+                                                                                          'italic bold'), command=exit)
+btn2.place(x=450, y=400)
 
-####binding######
+## BINDING
 
 entry1.bind('<Enter>', enterentry1)
 entry1.bind('<Leave>', leaveentry1)
